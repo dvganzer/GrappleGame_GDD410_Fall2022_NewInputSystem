@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class CameraLook : MonoBehaviour {
 
@@ -17,7 +18,26 @@ public class CameraLook : MonoBehaviour {
     float currentX = 0;
     float currentY = 10;
 
-  
+    public PlayerInput playerControls;
+    private InputAction camera;
+    Vector2 canmeraInput = Vector2.zero;
+
+    void Awake()
+    {
+
+        playerControls = new PlayerInput();
+    }
+
+    private void OnEnable()
+    {
+        camera = playerControls.Player.Camera;
+        camera.Enable();
+    }
+
+    private void OnDisable()
+    { 
+        camera.Disable();
+    }
 
     private void Start()
     {
@@ -27,8 +47,9 @@ public class CameraLook : MonoBehaviour {
 
     private void LateUpdate()
     {
-        currentX += Input.GetAxis("Mouse X") * sensitivityX;
-        currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
+        canmeraInput = camera.ReadValue<Vector2>();
+        currentX += canmeraInput.x * sensitivityX;
+        currentY -= canmeraInput.y * sensitivityY;
 
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
 

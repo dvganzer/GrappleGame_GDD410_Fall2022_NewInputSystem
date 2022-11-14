@@ -17,8 +17,8 @@ public class GrappleGun : MonoBehaviour
 
     void Awake()
     {
-        playerControl = new PlayerInput();
         lr = GetComponent<LineRenderer>();
+        playerControl = new PlayerInput();
     }
 
     private void OnEnable()

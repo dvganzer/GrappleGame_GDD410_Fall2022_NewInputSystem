@@ -35,33 +35,27 @@ public class PlayerMovement : MonoBehaviour {
     private InputAction move;
     private InputAction jump;
     private InputAction camera;
-    Vector2 moveInput = Vector2.zero;
-    Vector2 canmeraInput = Vector2.zero;
+    public Vector2 moveInput = Vector2.zero;
+    public Vector2 canmeraInput = Vector2.zero;
 
 
     void Awake() {
         rb = GetComponent<Rigidbody>();
-        playerControls = new PlayerInput();
+        //playerControls = new PlayerInput();
+        //playerControls = GetComponent<PlayerInput>();
     }
 
     private void OnEnable()
     {
-        camera = playerControls.Player.Camera;
-        move = playerControls.Player.Movement;
-        jump = playerControls.Player.Jump;
-        move.Enable();
-        jump.Enable();
-        camera.Enable();
+        //camera = playerControls.Player.Camera;
+       // move = playerControls.Player.Movement;
+        //jump = playerControls.Player.Jump;
+
 
         //jump.performed += Jump;
     }
 
-    private void OnDisable()
-    {
-        move.Disable();
-        jump.Disable();
-        camera.Disable();
-    }
+
     void Start() {
         
         Cursor.lockState = CursorLockMode.Locked;
@@ -69,21 +63,46 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     
-    private void FixedUpdate() {
-        Movement();
-    }
+
 
     private void Update() {
         MyInput();
         Look();
-        if (grounded)
+        //moveInput = move.ReadValue<Vector2>();
+        rb.AddForce(Vector3.down * Time.deltaTime * 10);
+
+        Vector2 mag = FindVelRelativeToLook();
+        float xMag = mag.x, yMag = mag.y;
+
+         
+
+        //Set max speed
+        float maxSpeed = this.maxSpeed;
+
+        if (crouching && grounded && readyToJump)
         {
-            moveSpeed = 500;
+            rb.AddForce(Vector3.down * Time.deltaTime * 3000);
+            return;
         }
+
+        if (x > 0 && xMag > maxSpeed) x = 0;
+        if (x < 0 && xMag < -maxSpeed) x = 0;
+        if (y > 0 && yMag > maxSpeed) y = 0;
+        if (y < 0 && yMag < -maxSpeed) y = 0;
+
+        float multiplier = 1f, multiplierV = 1f;
+
         if (!grounded)
         {
-            moveSpeed = 2000;
+            multiplier = 0.5f;
+            multiplierV = 0.5f;
         }
+
+        rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
+        rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier);
+
+
+      
     }
 
     private void MyInput() {
@@ -94,55 +113,34 @@ public class PlayerMovement : MonoBehaviour {
       ;
     }
 
-    private void Movement() {
-        moveInput = move.ReadValue<Vector2>();
-        rb.AddForce(Vector3.down * Time.deltaTime * 10);
-        
-        Vector2 mag = FindVelRelativeToLook();
-        float xMag = mag.x, yMag = mag.y;
-
-        if (readyToJump && jumping) Jump();
-
-        //Set max speed
-        float maxSpeed = this.maxSpeed;
-        
-        if (crouching && grounded && readyToJump) {
-            rb.AddForce(Vector3.down * Time.deltaTime * 3000);
-            return;
-        }
-        
-        if (x > 0 && xMag > maxSpeed) x = 0;
-        if (x < 0 && xMag < -maxSpeed) x = 0;
-        if (y > 0 && yMag > maxSpeed) y = 0;
-        if (y < 0 && yMag < -maxSpeed) y = 0;
-
-        float multiplier = 1f, multiplierV = 1f;
-        
-        if (!grounded) {
-            multiplier = 0.5f;
-            multiplierV = 0.5f;
-        }
-        
-        rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
-        rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier);
+    public void OnMovement(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
     }
 
-    private void Jump() {
-        if (grounded && readyToJump) {
+    
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        
+            if (grounded && readyToJump && jumping)
+        {
             readyToJump = false;
 
             rb.AddForce(Vector2.up * jumpForce * 1.5f);
 
-        
+
             Vector3 vel = rb.velocity;
             if (rb.velocity.y < 0.5f)
                 rb.velocity = new Vector3(vel.x, 0, vel.z);
-            else if (rb.velocity.y > 0) 
+            else if (rb.velocity.y > 0)
                 rb.velocity = new Vector3(vel.x, vel.y / 2, vel.z);
-            
+
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
+       
+    
     
     private void ResetJump() {
         readyToJump = true;
