@@ -14,12 +14,14 @@ public class CameraLook : MonoBehaviour {
     public float Y_ANGLE_MAX = 70.0f;
     public Camera cam;
 
-    private float distance = 15;
+    private float distance = 10;
     float currentX = 0;
     float currentY = 10;
 
     public PlayerInput playerControls;
+#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
     private InputAction camera;
+#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
     Vector2 canmeraInput = Vector2.zero;
 
     void Awake()
@@ -28,16 +30,7 @@ public class CameraLook : MonoBehaviour {
         playerControls = new PlayerInput();
     }
 
-    private void OnEnable()
-    {
-        camera = playerControls.Player.Camera;
-        camera.Enable();
-    }
 
-    private void OnDisable()
-    { 
-        camera.Disable();
-    }
 
     private void Start()
     {

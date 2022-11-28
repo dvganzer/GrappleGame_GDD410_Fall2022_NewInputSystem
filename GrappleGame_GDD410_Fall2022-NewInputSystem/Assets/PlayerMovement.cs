@@ -108,8 +108,8 @@ public class PlayerMovement : MonoBehaviour {
     private void MyInput() {
         x = moveInput.x;
         y = moveInput.y;
-        jumping = Input.GetButton("Jump");
-        crouching = Input.GetKey(KeyCode.LeftControl);
+        
+       
       ;
     }
 
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         
             if (grounded && readyToJump && jumping)
-        {
+            {
             readyToJump = false;
 
             rb.AddForce(Vector2.up * jumpForce * 1.5f);
@@ -137,7 +137,7 @@ public class PlayerMovement : MonoBehaviour {
                 rb.velocity = new Vector3(vel.x, vel.y / 2, vel.z);
 
             Invoke(nameof(ResetJump), jumpCooldown);
-        }
+            }
     }
        
     

@@ -8,40 +8,24 @@ public class GrappleGun : MonoBehaviour
     private LineRenderer lr;
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
+#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
     public Transform gunTip, camera, player;
+#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
     [SerializeField] private float maxDistance;
     private SpringJoint joint;
 
-    PlayerInput playerControl;
-    InputAction swing;
 
     void Awake()
     {
         lr = GetComponent<LineRenderer>();
-        playerControl = new PlayerInput();
+       
     }
-
-    private void OnEnable()
-    {
-        swing = playerControl.Player.Swing;
-        swing.Enable();
-        swing.performed += StartGrapple;
-        swing.canceled += StopGrapple;
-
-    }
-    private void OnDisable()
-    {
-        swing.Disable();
-
-    }
-
-
     void LateUpdate()
     {
         DrawRope();
     }
 
-    void StartGrapple(InputAction.CallbackContext context)
+    public void OnSwing(InputAction.CallbackContext context)
     {
         RaycastHit hit;
         if (Physics.Raycast(camera.position, camera.forward, out hit, maxDistance, whatIsGrappleable))
@@ -69,6 +53,7 @@ public class GrappleGun : MonoBehaviour
 
     void StopGrapple(InputAction.CallbackContext context)
     {
+        
         lr.positionCount = 0;
         Destroy(joint);
     }
@@ -99,10 +84,11 @@ public class GrappleGun : MonoBehaviour
     {
         if(other.gameObject.name == "ToHigh")
         {
-            swing.canceled += StopGrapple;
+            
 
         }
     }
+ 
 }
 
 
