@@ -8,9 +8,11 @@ public class GrappleGun : MonoBehaviour
     private LineRenderer lr;
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
-#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
-    public Transform gunTip, camera, player;
-#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
+
+    public Transform gunTip;
+    public Transform cameraSpot;
+    public Transform player;
+
     [SerializeField] private float maxDistance;
     private SpringJoint joint;
 
@@ -27,36 +29,42 @@ public class GrappleGun : MonoBehaviour
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(camera.position, camera.forward, out hit, maxDistance, whatIsGrappleable))
+        if (context.performed)
         {
-            grapplePoint = hit.point;
-            joint = player.gameObject.AddComponent<SpringJoint>();
-            joint.autoConfigureConnectedAnchor = false;
-            joint.connectedAnchor = grapplePoint;
+            RaycastHit hit;
+            if (Physics.Raycast(cameraSpot.position, cameraSpot.forward, out hit, maxDistance, whatIsGrappleable))
+            {
+                grapplePoint = hit.point;
+                joint = player.gameObject.AddComponent<SpringJoint>();
+                joint.autoConfigureConnectedAnchor = false;
+                joint.connectedAnchor = grapplePoint;
 
-            float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
+                float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
-       
-            joint.maxDistance = distanceFromPoint * 0.8f;
-            joint.minDistance = distanceFromPoint * 0.25f;
 
-     
-            joint.spring = 4.5f;
-            joint.damper = 7f;
-            joint.massScale = 4.5f;
+                joint.maxDistance = distanceFromPoint * 0.8f;
+                joint.minDistance = distanceFromPoint * 0.25f;
 
-            lr.positionCount = 2;
-            currentGrapplePosition = gunTip.position;
+
+                joint.spring = 4.5f;
+                joint.damper = 7f;
+                joint.massScale = 4.5f;
+
+                lr.positionCount = 2;
+                currentGrapplePosition = gunTip.position;
+            }
         }
+
+           
+      
+        if (context.canceled)
+        {
+            lr.positionCount = 0;
+            Destroy(joint);
+        }
+       
     }
 
-    void StopGrapple(InputAction.CallbackContext context)
-    {
-        
-        lr.positionCount = 0;
-        Destroy(joint);
-    }
 
     private Vector3 currentGrapplePosition;
 
@@ -84,11 +92,13 @@ public class GrappleGun : MonoBehaviour
     {
         if(other.gameObject.name == "ToHigh")
         {
-            
+            lr.positionCount = 0;
+            Destroy(joint);
 
         }
     }
     #region Pull
+
 
     #endregion
 }

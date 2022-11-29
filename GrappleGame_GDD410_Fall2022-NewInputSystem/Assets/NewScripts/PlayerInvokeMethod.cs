@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class PlayerInvokeMethod : MonoBehaviour
 {
-   
+
     [Header("Jumping")]
     public float jumpForce = 5f;
     Vector3 moveDirection;
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     [SerializeField] public Transform player;
     private LineRenderer lr;
     private Vector3 grapplePoint;
-    
+
 
     [SerializeField] private float maxDistance;
 
@@ -56,9 +56,27 @@ public class Player : MonoBehaviour
     private bool isShooting;
     private bool isGrappling;
 
-    
+    public PlayerInput playerInput;
 
     private Vector3 hookPoint;
+
+    private void OnEnable()
+    {
+        playerInput = new PlayerInput();
+        playerInput.Player.Enable();
+
+        playerInput.Player.Jump.performed += OnJump;
+        playerInput.Player.Swing.performed += StartGrapple;
+        playerInput.Player.Swing.canceled += StopGrapple;
+    }
+
+    private void OnDisable()
+    {
+        playerInput.Player.Disable();
+        playerInput.Player.Jump.performed -= OnJump;
+        playerInput.Player.Swing.performed -= StartGrapple;
+        playerInput.Player.Swing.canceled -= StopGrapple;
+    }
     private void Start()
     {
         Debug.Log(isGrounded);
@@ -71,14 +89,13 @@ public class Player : MonoBehaviour
         isShooting = false;
         isGrappling = false;
         lineRenderer.enabled = false;
-        
+
     }
 
     private void Update()
     {
         //Movement && Jump
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
     }
 
     private void LateUpdate()
@@ -93,9 +110,9 @@ public class Player : MonoBehaviour
         }
     }
     #region Movement
-   
-    
-   
+
+
+
 
 
     public void OnJump(InputAction.CallbackContext context)
@@ -105,49 +122,46 @@ public class Player : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         }
-       
+
     }
     #endregion
 
     #region Swing
-    public void OnSwing(InputAction.CallbackContext context)
+    void StartGrapple(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        RaycastHit hit;
+        if (Physics.Raycast(camera.position, camera.forward, out hit, maxDistance, whatIsGrappleable) && context.performed)
         {
-            Debug.Log("pressed");
-            RaycastHit hit;
-            if (Physics.Raycast(camera.position, camera.forward, out hit, maxDistance, whatIsGrappleable))
-            {
-                grapplePoint = hit.point;
-                joint = player.gameObject.AddComponent<SpringJoint>();
-                joint.autoConfigureConnectedAnchor = false;
-                joint.connectedAnchor = grapplePoint;
+            grapplePoint = hit.point;
+            joint = player.gameObject.AddComponent<SpringJoint>();
+            joint.autoConfigureConnectedAnchor = false;
+            joint.connectedAnchor = grapplePoint;
 
-                float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
+            float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
 
-                joint.maxDistance = distanceFromPoint * 0.8f;
-                joint.minDistance = distanceFromPoint * 0.25f;
+            joint.maxDistance = distanceFromPoint * 0.8f;
+            joint.minDistance = distanceFromPoint * 0.25f;
 
 
-                joint.spring = 4.5f;
-                joint.damper = 7f;
-                joint.massScale = 4.5f;
+            joint.spring = 4.5f;
+            joint.damper = 7f;
+            joint.massScale = 4.5f;
 
-                lr.positionCount = 2;
-                currentGrapplePosition = gunTip.position;
-            }
+            lr.positionCount = 2;
+            currentGrapplePosition = gunTip.position;
         }
-        else if (context.canceled)
+    }
+
+    void StopGrapple(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
         {
-            Debug.Log("released");
             lr.positionCount = 0;
             Destroy(joint);
         }
-       
-    }
 
- 
+    }
 
     private Vector3 currentGrapplePosition;
 
@@ -175,7 +189,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.name == "ToHigh")
         {
-            
+           
 
         }
     }
@@ -191,10 +205,10 @@ public class Player : MonoBehaviour
             _grapplingHook.localPosition = new Vector3(1, 0, 0);
             _grapplingHook.localRotation = Quaternion.Euler(new Vector3(90, 0, 0));
         }
-        
 
-            ShootHook();
- 
+
+        ShootHook();
+
         if (Input.GetButtonUp("Fire2"))
         {
             isGrappling = false;
@@ -203,7 +217,7 @@ public class Player : MonoBehaviour
             _grapplingHook.SetParent(_handPos);
         }
 
-            if (isGrappling)
+        if (isGrappling)
         {
             _grapplingHook.position = Vector3.Lerp(_grapplingHook.position, hookPoint, _hookSpeed * Time.deltaTime);
             if (Vector3.Distance(_grapplingHook.position, hookPoint) < 0.5f)
