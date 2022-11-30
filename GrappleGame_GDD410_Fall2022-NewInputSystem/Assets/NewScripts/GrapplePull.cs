@@ -26,25 +26,6 @@ public class GrapplePull : MonoBehaviour
 
     private Vector3 hookPoint;
 
-    public PlayerInput playerControl;
-    private InputAction pull;
-
-    private void Awake()
-    {
-        playerControl = new PlayerInput();
-    }
-    private void OnEnable()
-    {
-        pull = playerControl.Player.Pull;
-        pull.Enable();
-        //pull.performed += Pull;
-        //pull.canceled += notPull;
-    }
-    private void OnDisable()
-    {
-        pull.Disable();
-
-    }
     void Start()
     {
         isShooting = false;
@@ -52,38 +33,36 @@ public class GrapplePull : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
-    private void Update()
+    public void Update(InputAction.CallbackContext context)
     {
-        pull.performed += Pull;
-        pull.canceled += notPull;
-    }
-
-    void Pull(InputAction.CallbackContext context)
-    {
-        Debug.Log(Vector3.Distance(_playerBody.position, hookPoint - _offset));
-        if(_grapplingHook.parent == _handPos)
+        if (_grapplingHook.parent == _handPos)
         {
-            _grapplingHook.localPosition = new Vector3(1,0,0);
+            _grapplingHook.localPosition = new Vector3(1, 0, 0);
             _grapplingHook.localRotation = Quaternion.Euler(new Vector3(90, 0, 0));
         }
-   
-       
-            ShootHook();
-       
-        if (Input.GetButtonUp("Fire2"))
-        {
 
+        if (context.performed)
+        {
+            ShootHook();
         }
+        if (context.canceled)
+        {
+            isGrappling = false;
+            lineRenderer.enabled = false;
+            _grapplingHook.position = _handPos.position;
+            _grapplingHook.SetParent(_handPos);
+        }
+
 
         if (isGrappling)
         {
+
             _grapplingHook.position = Vector3.Lerp(_grapplingHook.position, hookPoint, _hookSpeed * Time.deltaTime);
-            if(Vector3.Distance(_grapplingHook.position, hookPoint) < 0.5f)
+            if (Vector3.Distance(_grapplingHook.position, hookPoint) < 0.5f)
             {
                 _playerBody.position = Vector3.Lerp(_playerBody.position, hookPoint - _offset, _hookSpeed * Time.deltaTime);
-
             }
-            
+
 
         }
         if (Vector3.Distance(_playerBody.position, hookPoint) <= 7f)
@@ -95,12 +74,10 @@ public class GrapplePull : MonoBehaviour
             lineRenderer.enabled = false;
         }
     }
-    public void notPull(InputAction.CallbackContext context)
+
+    public void OnPull(InputAction.CallbackContext context)
     {
-        isGrappling = false;
-        lineRenderer.enabled = false;
-        _grapplingHook.position = _handPos.position;
-        _grapplingHook.SetParent(_handPos);
+       
 
     }
     private void LateUpdate()
@@ -125,7 +102,7 @@ public class GrapplePull : MonoBehaviour
             _grapplingHook.LookAt(hookPoint);
             print("Hit!)");
             lineRenderer.enabled = true;
-            Debug.Log(lineRenderer);
+            
         }
         isShooting = false;
 
