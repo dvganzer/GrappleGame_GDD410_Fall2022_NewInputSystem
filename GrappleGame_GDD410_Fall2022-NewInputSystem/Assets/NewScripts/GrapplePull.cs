@@ -33,7 +33,9 @@ public class GrapplePull : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
-    public void Update(InputAction.CallbackContext context)
+
+
+    public void OnPull(InputAction.CallbackContext context)
     {
         if (_grapplingHook.parent == _handPos)
         {
@@ -45,13 +47,7 @@ public class GrapplePull : MonoBehaviour
         {
             ShootHook();
         }
-        if (context.canceled)
-        {
-            isGrappling = false;
-            lineRenderer.enabled = false;
-            _grapplingHook.position = _handPos.position;
-            _grapplingHook.SetParent(_handPos);
-        }
+
 
 
         if (isGrappling)
@@ -71,13 +67,9 @@ public class GrapplePull : MonoBehaviour
             isGrappling = false;
             Debug.Log(isGrappling);
             _grapplingHook.SetParent(_handPos);
+            _grapplingHook.position = _handPos.position;
             lineRenderer.enabled = false;
         }
-    }
-
-    public void OnPull(InputAction.CallbackContext context)
-    {
-       
 
     }
     private void LateUpdate()

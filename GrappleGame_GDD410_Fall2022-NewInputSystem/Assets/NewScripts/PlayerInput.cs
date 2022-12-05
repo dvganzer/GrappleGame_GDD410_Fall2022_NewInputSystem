@@ -80,6 +80,24 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SenseUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""a47f18e7-e996-4269-be70-5dc56ead6b76"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SenseDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a4a9534-522b-4bd3-871e-99863f3f6a73"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -302,6 +320,28 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""57874adb-b22f-4667-9679-074a7a82944b"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SenseUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16b3fe0e-6a09-496a-83cf-2d68edf88e17"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SenseDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -316,6 +356,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player_Swing = m_Player.FindAction("Swing", throwIfNotFound: true);
         m_Player_Pull = m_Player.FindAction("Pull", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
+        m_Player_SenseUp = m_Player.FindAction("SenseUp", throwIfNotFound: true);
+        m_Player_SenseDown = m_Player.FindAction("SenseDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -381,6 +423,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Swing;
     private readonly InputAction m_Player_Pull;
     private readonly InputAction m_Player_Join;
+    private readonly InputAction m_Player_SenseUp;
+    private readonly InputAction m_Player_SenseDown;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -391,6 +435,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Swing => m_Wrapper.m_Player_Swing;
         public InputAction @Pull => m_Wrapper.m_Player_Pull;
         public InputAction @Join => m_Wrapper.m_Player_Join;
+        public InputAction @SenseUp => m_Wrapper.m_Player_SenseUp;
+        public InputAction @SenseDown => m_Wrapper.m_Player_SenseDown;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -418,6 +464,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Join.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @Join.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @Join.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
+                @SenseUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSenseUp;
+                @SenseUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSenseUp;
+                @SenseUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSenseUp;
+                @SenseDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSenseDown;
+                @SenseDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSenseDown;
+                @SenseDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSenseDown;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -440,6 +492,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Join.started += instance.OnJoin;
                 @Join.performed += instance.OnJoin;
                 @Join.canceled += instance.OnJoin;
+                @SenseUp.started += instance.OnSenseUp;
+                @SenseUp.performed += instance.OnSenseUp;
+                @SenseUp.canceled += instance.OnSenseUp;
+                @SenseDown.started += instance.OnSenseDown;
+                @SenseDown.performed += instance.OnSenseDown;
+                @SenseDown.canceled += instance.OnSenseDown;
             }
         }
     }
@@ -452,5 +510,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnSwing(InputAction.CallbackContext context);
         void OnPull(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+        void OnSenseUp(InputAction.CallbackContext context);
+        void OnSenseDown(InputAction.CallbackContext context);
     }
 }
