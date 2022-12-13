@@ -127,7 +127,8 @@ public class NewMovement : MonoBehaviour
 
             readyToJump = false;
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(transform.up * jumpForce,  ForceMode.Impulse);
+            rb.AddForce(transform.forward * jumpForce, ForceMode.Impulse);
             Invoke(nameof(ResetJump), jumpCooldown);
 
         }
