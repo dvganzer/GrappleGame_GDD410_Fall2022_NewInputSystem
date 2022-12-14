@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoad : MonoBehaviour
 {
+    public GameObject panel;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,5 +20,9 @@ public class SceneLoad : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene(1);
+    }
+    public void Instructuions()
+    {
+        panel.SetActive(true);
     }
 }
