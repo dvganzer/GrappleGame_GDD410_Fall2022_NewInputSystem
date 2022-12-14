@@ -1690,7 +1690,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 19.699524, y: 442}
+  m_AnchoredPosition: {x: 19.699463, y: 442}
   m_SizeDelta: {x: 193.32, y: 45.9}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6561979147457982076
@@ -10007,7 +10007,7 @@ MonoBehaviour:
   whatIsGrappleable:
     serializedVersion: 2
     m_Bits: 128
-  gunTip: {fileID: 6561979149330347205}
+  gunTip: {fileID: 6561979148532832549}
   cameraSpot: {fileID: 6561979148419227538}
   player: {fileID: 6561979148353263058}
   grappling: 0
@@ -11522,7 +11522,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6561979148532832548}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -16482,7 +16482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 19.699524, y: 33}
+  m_AnchoredPosition: {x: 19.699463, y: 33}
   m_SizeDelta: {x: 193.32, y: 110.910034}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6561979149144007737
