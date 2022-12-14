@@ -25,11 +25,17 @@ public class NewGrapplePull : MonoBehaviour
 
     [SerializedField] public bool grappling;
 
+    [HideInInspector]
+    public AnimatorHandler animatorHandler;
+
+
 
 
     void Start()
     {
         gg = GetComponent<GrappleGun>();
+        animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        animatorHandler.Initialize();
     }
 
     public void StartGrapple(InputAction.CallbackContext context)
@@ -70,10 +76,15 @@ public class NewGrapplePull : MonoBehaviour
     {
         if (grapplingCdTimer > 0)
             grapplingCdTimer -= Time.deltaTime;
+
+
+        
     }
     private void LateUpdate()
     {
         if (grappling)
             lr.SetPosition(0, gunTip.position);
+            
+      
     }
 }

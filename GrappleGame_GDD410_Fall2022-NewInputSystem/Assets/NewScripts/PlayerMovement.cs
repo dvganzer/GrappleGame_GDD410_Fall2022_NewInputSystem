@@ -38,6 +38,9 @@ public class PlayerMovement : MonoBehaviour {
     public Vector2 moveInput = Vector2.zero;
     public Vector2 canmeraInput = Vector2.zero;
 
+    [HideInInspector]
+    public AnimatorHandler animatorHandler;
+
 
     void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -49,6 +52,8 @@ public class PlayerMovement : MonoBehaviour {
         
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        animatorHandler.Initialize();
     }
 
     
@@ -57,6 +62,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Update() {
         MyInput();
         Look();
+
       
         rb.AddForce(Vector3.down * Time.deltaTime * 10);
 
@@ -89,7 +95,6 @@ public class PlayerMovement : MonoBehaviour {
 
         rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
         rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier);
-
 
       
     }

@@ -9055,8 +9055,8 @@ GameObject:
   - component: {fileID: 3338084692754624805}
   - component: {fileID: 7614894235431474363}
   - component: {fileID: 424931782392031092}
-  - component: {fileID: 7108914779651278192}
-  - component: {fileID: 8910154404762143166}
+  - component: {fileID: 6334199827550204793}
+  - component: {fileID: 7655649716658715005}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -9242,7 +9242,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7108914779651278192}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: OnMovement
         m_Mode: 0
@@ -9274,7 +9274,7 @@ MonoBehaviour:
     m_ActionName: Player/Camera[/XInputControllerWindows/rightStick/up,/XInputControllerWindows1/rightStick/up,/XInputControllerWindows/rightStick/down,/XInputControllerWindows1/rightStick/down,/XInputControllerWindows/rightStick/left,/XInputControllerWindows1/rightStick/left,/XInputControllerWindows/rightStick/right,/XInputControllerWindows1/rightStick/right]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8910154404762143166}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
@@ -9324,7 +9324,7 @@ MonoBehaviour:
   checkpointLayer: 0
   playerController: {fileID: 0}
   pressStart: {fileID: 3139788042386630148}
---- !u!114 &7108914779651278192
+--- !u!114 &6334199827550204793
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9333,58 +9333,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 4630868121800302109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9c6ccb514e80c442858f3f463c35440, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c325be9753874f4d984e7e2a52c9956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCam: {fileID: 8544873814279737768}
-  orientation: {fileID: 5598422267660681301}
-  moveSpeed: 100
-  maxSpeed: 10
-  grounded: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 512
-  counterMovement: 0.1
-  jumpForce: 550
-  moveInput: {x: 0, y: 0}
-  canmeraInput: {x: 0, y: 0}
---- !u!114 &8910154404762143166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4630868121800302109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1b780d21cf467a4689987bd84d5af91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpForce: 6
-  groundCheck: {fileID: 6104242798035166906}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 512
-  groundDistance: 0.2
-  cameraMultiplier: 0.5
+  cam: {fileID: 8544873814279737768}
+  gunTip: {fileID: 3118531364752767990}
   whatIsGrappleable:
     serializedVersion: 2
     m_Bits: 128
-  gunTip: {fileID: 3118531364752767990}
-  camera: {fileID: 8544873814279737768}
-  player: {fileID: 6104242798035166906}
-  maxDistance: 75
-  lineRenderer: {fileID: 7436253165785188213}
-  _grapplingHookEndPoint: {fileID: 3118531364752767990}
-  _grapplingHook: {fileID: 3118531364752767990}
-  _handPos: {fileID: 3672410228896540410}
-  _playerBody: {fileID: 6104242798035166906}
-  _grappleLayer:
+  lr: {fileID: 3338084692754624805}
+  maxGrappleDistance: 0
+  grappleDelayTime: 0
+  grapplingCd: 0
+  grappling: 0
+--- !u!114 &7655649716658715005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4630868121800302109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc60afea66b9a14abfd06c28571e10b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraInput: {x: 0, y: 0}
+  senseX: 0.5
+  senseY: 0.5
+  orientation: {fileID: 0}
+  xRotation: 0
+  yRotation: 0
+  moveInput: {x: 0, y: 0}
+  moveSpeed: 0
+  groundDrag: 0
+  airDrag: 0
+  playerHeight: 0
+  whatisGround:
     serializedVersion: 2
-    m_Bits: 64
-  _maxDistance: 75
-  _hookSpeed: 5
-  _offset: {x: 0, y: 0, z: 0}
+    m_Bits: 8
+  grounded: 1
+  jumpForce: 0
+  jumpCooldown: 0
+  airMultiplier: 0
+  readyToJump: 1
+  SenseText: {fileID: 0}
+  animatorHandler: {fileID: 0}
 --- !u!1 &4636170152270780772
 GameObject:
   m_ObjectHideFlags: 0
@@ -9426,6 +9420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5598422267660681301}
+  - component: {fileID: 8468734818996697856}
   m_Layer: 0
   m_Name: Grapple_Character_02
   m_TagString: Untagged
@@ -9453,6 +9448,26 @@ Transform:
   m_Father: {fileID: 6104242798035166906}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8468734818996697856
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4666440815135228511}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5b95ea85d04f5644793bd78ad1bb6616, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4668090405038948344
 GameObject:
   m_ObjectHideFlags: 0

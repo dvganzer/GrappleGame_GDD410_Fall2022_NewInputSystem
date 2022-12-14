@@ -44,15 +44,26 @@ public class NewMovement : MonoBehaviour
 
     [Header("UI")]
     [SerializedField] public Text SenseText;
+
+    [HideInInspector]
+    public AnimatorHandler animatorHandler;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        animatorHandler.Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        animatorHandler.UpdateAnimatorValues(moveInput.y, moveInput.x);
+
         SpeedControl();
         //Camera
        
@@ -91,6 +102,8 @@ public class NewMovement : MonoBehaviour
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
             rb.mass = 20;
+
+            animatorHandler.anim.Play("In Air");
         }
 
 
@@ -129,6 +142,7 @@ public class NewMovement : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.AddForce(transform.up * jumpForce,  ForceMode.Impulse);
             rb.AddForce(transform.forward * jumpForce, ForceMode.Impulse);
+            animatorHandler.anim.Play("Jump");
             Invoke(nameof(ResetJump), jumpCooldown);
 
         }
