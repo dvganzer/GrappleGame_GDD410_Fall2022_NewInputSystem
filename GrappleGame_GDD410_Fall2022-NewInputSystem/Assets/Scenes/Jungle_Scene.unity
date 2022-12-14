@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3861,8 +3861,7 @@ GameObject:
   - component: {fileID: 88692888}
   - component: {fileID: 88692887}
   m_Layer: 0
-  m_Name: png-clipart-brown-wood-log-arrow-signage-wood-cartoon-nail-cartoon-wood-sign-cartoon-character-angle
-    (4)
+  m_Name: Signs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17166,8 +17165,7 @@ GameObject:
   - component: {fileID: 507654041}
   - component: {fileID: 507654040}
   m_Layer: 0
-  m_Name: png-clipart-brown-wood-log-arrow-signage-wood-cartoon-nail-cartoon-wood-sign-cartoon-character-angle
-    (2)
+  m_Name: Signs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21958,8 +21956,7 @@ GameObject:
   - component: {fileID: 663477470}
   - component: {fileID: 663477469}
   m_Layer: 0
-  m_Name: png-clipart-brown-wood-log-arrow-signage-wood-cartoon-nail-cartoon-wood-sign-cartoon-character-angle
-    (5)
+  m_Name: Signs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34454,7 +34451,7 @@ GameObject:
   - component: {fileID: 1077506302}
   - component: {fileID: 1077506301}
   m_Layer: 0
-  m_Name: png-clipart-brown-wood-log-arrow-signage-wood-cartoon-nail-cartoon-wood-sign-cartoon-character-angle
+  m_Name: Signs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35440,8 +35437,7 @@ GameObject:
   - component: {fileID: 1102512952}
   - component: {fileID: 1102512951}
   m_Layer: 0
-  m_Name: png-clipart-brown-wood-log-arrow-signage-wood-cartoon-nail-cartoon-wood-sign-cartoon-character-angle
-    (3)
+  m_Name: Signs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53915,8 +53911,7 @@ GameObject:
   - component: {fileID: 1733717441}
   - component: {fileID: 1733717440}
   m_Layer: 0
-  m_Name: png-clipart-brown-wood-log-arrow-signage-wood-cartoon-nail-cartoon-wood-sign-cartoon-character-angle
-    (1)
+  m_Name: Signs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
