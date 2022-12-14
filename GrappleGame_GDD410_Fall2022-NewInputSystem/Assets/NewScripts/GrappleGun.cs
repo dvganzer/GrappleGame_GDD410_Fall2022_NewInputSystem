@@ -8,15 +8,25 @@ public class GrappleGun : MonoBehaviour
     private LineRenderer lr;
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
-    public NewMovement newMovement;
+    
     public Transform gunTip;
     public Transform cameraSpot;
     public Transform player;
+    public bool grappling = false;
 
     [SerializeField] private float maxDistance;
     private SpringJoint joint;
 
+    [HideInInspector]
+    public AnimatorHandler animatorHandler;
+    public NewMovement newMovement;
 
+
+    private void Start()
+    {
+        animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        animatorHandler.Initialize();
+    }
     void Awake()
     {
         lr = GetComponent<LineRenderer>();
@@ -28,6 +38,7 @@ public class GrappleGun : MonoBehaviour
         DrawRope();
     }
 
+
     public void OnSwing(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -37,7 +48,9 @@ public class GrappleGun : MonoBehaviour
             {
                 
                 grapplePoint = hit.point;
+                grappling = true;
                 joint = player.gameObject.AddComponent<SpringJoint>();
+                
                 joint.autoConfigureConnectedAnchor = false;
                 joint.connectedAnchor = grapplePoint;
 
@@ -63,6 +76,7 @@ public class GrappleGun : MonoBehaviour
         {
             lr.positionCount = 0;
             Destroy(joint);
+            grappling = false;
         }
        
     }

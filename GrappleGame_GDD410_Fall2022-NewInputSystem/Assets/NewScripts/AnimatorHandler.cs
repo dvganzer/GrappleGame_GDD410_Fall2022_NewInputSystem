@@ -74,12 +74,6 @@ public class AnimatorHandler : MonoBehaviour
         anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
         anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
 
-        if(grappling == true)
-        {
-            anim.Play("Swinging Motion");
-        }
 
-
-        
     }
 }

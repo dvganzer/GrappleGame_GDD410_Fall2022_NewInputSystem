@@ -17,7 +17,7 @@ public class LapManager : MonoBehaviour
     public Transform checkpointsParent;
     public int checkpointCount;
     public int checkpointLayer;
-    public PlayerMovement playerController;
+    public NewMovement playerController;
 
     public GameObject pressStart;
 
@@ -27,7 +27,7 @@ public class LapManager : MonoBehaviour
         checkpointCount = checkpointsParent.childCount;
         Debug.Log(checkpointCount);
         checkpointLayer = LayerMask.NameToLayer("Checkpoint");
-        playerController = GetComponent<PlayerMovement>();
+        playerController = GetComponent<NewMovement>();
         pressStart.SetActive(false);
     }
 
